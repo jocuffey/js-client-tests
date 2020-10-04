@@ -67,7 +67,7 @@ class TaskService {
         (error, results) => {
           if (error) return reject(error);
 
-          resolve(results[0]);
+          resolve();
         }
       );
     });
