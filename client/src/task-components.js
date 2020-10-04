@@ -43,6 +43,7 @@ export class TaskList extends Component {
 /**
  * Renders a specific task.
  */
+//Added task details to view
 export class TaskDetails extends Component<{ match: { params: { id: number } } }> {
   task: Task = { id: 0, title: '', done: false };
 
@@ -85,6 +86,7 @@ export class TaskDetails extends Component<{ match: { params: { id: number } } }
 /**
  * Renders form to edit a specific task.
  */
+//Added task description to component
 export class TaskEdit extends Component<{ match: { params: { id: number } } }> {
   task: Task = { id: 0, title: '', done: false };
 
@@ -110,6 +112,7 @@ export class TaskEdit extends Component<{ match: { params: { id: number } } }> {
             </Column>
             <Column>
               <Form.Textarea
+                value={this.task.description}
                 onChange={(event) => {
                   this.task.description = event.currentTarget.value;
                 }}
@@ -132,7 +135,16 @@ export class TaskEdit extends Component<{ match: { params: { id: number } } }> {
             <Button.Success onClick={() => Alert.info('Not yet implemented')}>Save</Button.Success>
           </Column>
           <Column right>
-            <Button.Danger onClick={() => Alert.info('Not yet implemented')}>Delete</Button.Danger>
+            <Button.Danger
+              onClick={() => {
+                taskService
+                  .delete(this.task.id)
+                  .then(() => history.push('/tasks/'))
+                  .catch((error: Error) => Alert.danger('Error deleting task: ' + error.message));
+              }}
+            >
+              Delete
+            </Button.Danger>
           </Column>
         </Row>
       </>
@@ -150,6 +162,7 @@ export class TaskEdit extends Component<{ match: { params: { id: number } } }> {
 /**
  * Renders form to create new task.
  */
+//Added task description to component
 export class TaskNew extends Component {
   title = '';
 

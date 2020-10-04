@@ -22,7 +22,7 @@ router.get('/tasks/:id', (request, response) => {
     .catch((error: Error) => response.status(500).send(error));
 });
 
-// Example request body: { title: "Ny oppgave" }
+// Example request body: { title: "Ny oppgave", description: "ny oppgave beskrivelse" }
 // Example response body: { id: 4 }
 router.post('/tasks', (request, response) => {
   const data = request.body;
