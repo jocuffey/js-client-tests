@@ -174,14 +174,19 @@ export class TaskNew extends Component {
               <Form.Label>Description:</Form.Label>
             </Column>
             <Column>
-              <Form.Textarea value="" onChange={() => {}} rows={10} disabled />
+              <Form.Textarea
+                onChange={(event) => {
+                  this.description = event.currentTarget.value;
+                }}
+                rows={10}
+              />
             </Column>
           </Row>
         </Card>
         <Button.Success
           onClick={() => {
             taskService
-              .create(this.title)
+              .create(this.title, this.description)
               .then((id) => history.push('/tasks/' + id))
               .catch((error: Error) => Alert.danger('Error creating task: ' + error.message));
           }}
