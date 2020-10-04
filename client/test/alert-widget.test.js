@@ -56,4 +56,57 @@ describe('Alert tests', () => {
       done();
     });
   });
+
+  test('Show 3 alerts and close 2nd', (done) => {
+    const wrapper = shallow(<Alert />);
+    Alert.danger('test');
+
+    setTimeout(() => {
+      expect(
+        wrapper.matchesElement(
+          <>
+            <div>
+              test<button>&times;</button>
+            </div>
+          </>
+        )
+      ).toEqual(true);
+      done();
+    });
+
+    Alert.danger('another test');
+
+    setTimeout(() => {
+      expect(
+        wrapper.matchesElement(
+          <>
+            <div>
+              another test<button>&times;</button>
+            </div>
+          </>
+        )
+      ).toEqual(true);
+
+      wrapper.find('button.close').simulate('click');
+
+      expect(wrapper.matchesElement(<></>)).toEqual(true);
+      done();
+    });
+
+    Alert.danger('a third test');
+
+    setTimeout(() => {
+      expect(
+        wrapper.matchesElement(
+          <>
+            <div>
+              a third test<button>&times;</button>
+            </div>
+          </>
+        )
+      ).toEqual(true);
+
+      done();
+    });
+  });
 });
