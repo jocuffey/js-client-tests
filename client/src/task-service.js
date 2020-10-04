@@ -36,6 +36,18 @@ class TaskService {
       .then((response) => response.data.id);
   }
 
+  /**
+   * Update task with given id.
+   */
+  update(id: number, title: string, description: string) {
+    return axios
+      .put<{}>('/tasks/' + id, { title: title, description: description })
+      .then((response) => response.data.id);
+  }
+
+  /**
+   * Delete task with given id.
+   */
   delete(id: number) {
     return axios.delete<{}, { id: number }>('/tasks/' + id).then((response) => response.data.id);
   }
