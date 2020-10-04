@@ -43,7 +43,7 @@ export class TaskList extends Component {
 /**
  * Renders a specific task.
  */
-//Added task details to view
+//Added task description to view
 export class TaskDetails extends Component<{ match: { params: { id: number } } }> {
   task: Task = { id: 0, title: '', done: false };
 
@@ -132,7 +132,16 @@ export class TaskEdit extends Component<{ match: { params: { id: number } } }> {
         </Card>
         <Row>
           <Column>
-            <Button.Success onClick={() => Alert.info('Not yet implemented')}>Save</Button.Success>
+            <Button.Success
+              onClick={() => {
+                taskService
+                  .update(this.task.id, this.task.title, this.task.description)
+                  .then(() => history.push('/tasks/' + this.props.match.params.id + '/edit'))
+                  .catch((error: Error) => Alert.danger('Error updating task: ' + error.message));
+              }}
+            >
+              Save
+            </Button.Success>
           </Column>
           <Column right>
             <Button.Danger

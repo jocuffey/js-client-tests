@@ -39,6 +39,14 @@ router.post('/tasks', (request, response) => {
   else response.status(400).send('Missing task title');
 });
 
+router.put('/tasks/:id', (request, response) => {
+  const data = request.body;
+  taskService
+    .update(Number(request.params.id), data.title, data.description)
+    .then((result) => response.send())
+    .catch((error: Error) => response.status(500).send(error));
+});
+
 router.delete('/tasks/:id', (request, response) => {
   taskService
     .delete(Number(request.params.id))
