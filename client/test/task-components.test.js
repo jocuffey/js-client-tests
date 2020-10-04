@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { TaskList, TaskNew } from '../src/task-components';
+import { TaskList, TaskNew, TaskDetails } from '../src/task-components';
 import { type Task } from '../src/task-service';
 import { shallow } from 'enzyme';
 import { Form, Button, Column } from '../src/widgets';
@@ -15,6 +15,12 @@ jest.mock('../src/task-service', () => {
         { id: 2, title: 'Møt opp på forelesning', done: false },
         { id: 3, title: 'Gjør øving', done: false },
       ]);
+    }
+
+    get(id: number) {
+      {
+        return Promise.resolve([{ id: 1, title: 'Les leksjon', done: false }]);
+      }
     }
 
     create(title: string) {
@@ -55,4 +61,38 @@ describe('Task component tests', () => {
       done();
     });
   });
+
+  //First TaskDetails test
+  test('TaskDetails draws correctly', (done) => {
+    const wrapper = shallow(<TaskDetails match={{ params: { id: 1 } }} />);
+
+    // Wait for events to complete
+    setTimeout(() => {
+      expect(
+        wrapper.containsAllMatchingElements([
+          <Column width={2}>Title:</Column>,
+          <Column width={2}>Description:</Column>,
+          <Column width={2}>Done:</Column>,
+        ])
+      ).toEqual(true);
+      done();
+    });
+  });
+
+  //Second TaskDetails test using snapshot
+  // test('TaskDetails draws correctly', (done) => {
+  //   const wrapper = shallow(<TaskDetails match={{ params: { id: 1 } }} />);
+
+  //   // Wait for events to complete
+  //   setTimeout(() => {
+  //     expect(
+  //       wrapper.containsAllMatchingElements([
+  //         <NavLink to="/tasks/1">Les leksjon</NavLink>,
+  //         <NavLink to="/tasks/2">Møt opp på forelesning</NavLink>,
+  //         <NavLink to="/tasks/3">Gjør øving</NavLink>,
+  //       ])
+  //     ).toEqual(true);
+  //     done();
+  //   });
+  // });
 });
