@@ -80,19 +80,9 @@ describe('Task component tests', () => {
   });
 
   //Second TaskDetails test using snapshot
-  // test('TaskDetails draws correctly', (done) => {
-  //   const wrapper = shallow(<TaskDetails match={{ params: { id: 1 } }} />);
+  test('TaskDetails draws correctly', () => {
+    const wrapper = shallow(<TaskDetails match={{ params: { id: 1 } }} />);
 
-  //   // Wait for events to complete
-  //   setTimeout(() => {
-  //     expect(
-  //       wrapper.containsAllMatchingElements([
-  //         <NavLink to="/tasks/1">Les leksjon</NavLink>,
-  //         <NavLink to="/tasks/2">Møt opp på forelesning</NavLink>,
-  //         <NavLink to="/tasks/3">Gjør øving</NavLink>,
-  //       ])
-  //     ).toEqual(true);
-  //     done();
-  //   });
-  // });
+    expect(wrapper).toMatchSnapshot();
+  });
 });
