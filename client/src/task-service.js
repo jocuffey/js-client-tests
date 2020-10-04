@@ -41,7 +41,7 @@ class TaskService {
    */
   update(id: number, title: string, description: string) {
     return axios
-      .put<{}>('/tasks/' + id, { title: title, description: description })
+      .put<{}, { id: number }>('/tasks/' + id, { title: title, description: description })
       .then((response) => response.data.id);
   }
 

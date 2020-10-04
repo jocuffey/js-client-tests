@@ -45,7 +45,7 @@ export class TaskList extends Component {
  */
 //Added task description to view
 export class TaskDetails extends Component<{ match: { params: { id: number } } }> {
-  task: Task = { id: 0, title: '', done: false };
+  task: Task = { id: 0, title: '', done: false, description: '' };
 
   render() {
     return (
@@ -88,7 +88,7 @@ export class TaskDetails extends Component<{ match: { params: { id: number } } }
  */
 //Added task description to component
 export class TaskEdit extends Component<{ match: { params: { id: number } } }> {
-  task: Task = { id: 0, title: '', done: false };
+  task: Task = { id: 0, title: '', done: false, description: '' };
 
   render() {
     return (
@@ -174,6 +174,7 @@ export class TaskEdit extends Component<{ match: { params: { id: number } } }> {
 //Added task description to component
 export class TaskNew extends Component {
   title = '';
+  description = '';
 
   render() {
     return (
@@ -197,6 +198,7 @@ export class TaskNew extends Component {
             </Column>
             <Column>
               <Form.Textarea
+                value={this.description}
                 onChange={(event) => {
                   this.description = event.currentTarget.value;
                 }}
