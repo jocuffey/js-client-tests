@@ -136,7 +136,7 @@ export class TaskEdit extends Component<{ match: { params: { id: number } } }> {
               onClick={() => {
                 taskService
                   .update(this.task.id, this.task.title, this.task.description)
-                  .then(() => history.push('/tasks/' + this.props.match.params.id + '/edit'))
+                  .then(() => history.push('/tasks/' + this.props.match.params.id))
                   .catch((error: Error) => Alert.danger('Error updating task: ' + error.message));
               }}
             >

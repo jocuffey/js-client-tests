@@ -1,10 +1,10 @@
 // @flow
 
 import * as React from 'react';
-import { TaskList, TaskNew, TaskDetails } from '../src/task-components';
+import { TaskList, TaskNew, TaskDetails, TaskEdit } from '../src/task-components';
 import { type Task } from '../src/task-service';
 import { shallow } from 'enzyme';
-import { Form, Button, Column } from '../src/widgets';
+import { Form, Button, Column, Alert } from '../src/widgets';
 import { NavLink } from 'react-router-dom';
 
 jest.mock('../src/task-service', () => {
@@ -21,6 +21,10 @@ jest.mock('../src/task-service', () => {
       {
         return Promise.resolve([{ id: 1, title: 'Les leksjon', done: false }]);
       }
+    }
+
+    update(id: number, title: string) {
+      return Promise.resolve(1);
     }
 
     create(title: string) {
@@ -43,6 +47,17 @@ describe('Task component tests', () => {
           <NavLink to="/tasks/3">Gjør øving</NavLink>,
         ])
       ).toEqual(true);
+      done();
+    });
+  });
+
+  test('TaskList opens TaskNew correctly', (done) => {
+    const wrapper = shallow(<TaskList />);
+
+    wrapper.find(Button.Success).simulate('click');
+    // Wait for events to complete
+    setTimeout(() => {
+      expect(location.hash).toEqual('#/tasks/new');
       done();
     });
   });
@@ -84,5 +99,46 @@ describe('Task component tests', () => {
     const wrapper = shallow(<TaskDetails match={{ params: { id: 1 } }} />);
 
     expect(wrapper).toMatchSnapshot();
+  });
+
+  //TaskEdit test using snapshot
+  test('TaskEdit draws correctly', () => {
+    const wrapper = shallow(<TaskEdit match={{ params: { id: 1 } }} />);
+
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  test('TaskEdit correctly sets location on save', (done) => {
+    const wrapper = shallow(<TaskEdit match={{ params: { id: 1 } }} />);
+
+    wrapper.find(Form.Input).simulate('change', { currentTarget: { value: 'Testing' } });
+    // $FlowExpectedError
+    expect(wrapper.containsMatchingElement(<Form.Input value="Testing" />)).toEqual(true);
+
+    wrapper.find(Button.Success).simulate('click');
+    // Wait for events to complete
+    setTimeout(() => {
+      expect(location.hash).toEqual('#/tasks/1');
+      done();
+    });
+  });
+
+  test('TaskEdit description updates onchange', () => {
+    const wrapper = shallow(<TaskEdit match={{ params: { id: 2 } }} />);
+
+    wrapper.find(Form.Textarea).simulate('change', { currentTarget: { value: 'Testing' } });
+    // $FlowExpectedError
+    expect(wrapper.containsMatchingElement(<Form.Textarea value="Testing" />)).toEqual(true);
+  });
+
+  test('TaskDetails correctly sets location on edit click', (done) => {
+    const wrapper = shallow(<TaskDetails match={{ params: { id: 1 } }} />);
+
+    wrapper.find(Button.Success).simulate('click');
+    // $FlowExpectedError
+    setTimeout(() => {
+      expect(location.hash).toEqual('#/tasks/1/edit');
+      done();
+    });
   });
 });
